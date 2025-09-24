@@ -126,6 +126,9 @@ fn get_vllm_payload(prompt: String) -> String {
         .split_whitespace()
         .map(|v| v.to_string())
         .collect::<Vec<String>>();
-    let data = format!(r#"{{"prompt": "{}"}}"#, formatted.join(" "));
+    let data = format!(
+        r#"{{"prompt": "{}", "max_tokens": 8192 , "temperature": 0.2 }}"#,
+        formatted.join(" ")
+    );
     data
 }
