@@ -77,16 +77,16 @@ impl AgentInterface for Agent {
                 let data = fs::read(
                     "/home/lzuccarelli/Projects/rust-llama-agent/docs/example-response.json",
                 )?;
-                let llama: VllmResponse = serde_json::from_slice(&data)?;
-                log::debug!("[execute] result from test {:?}", llama);
+                let vllm: VllmResponse = serde_json::from_slice(&data)?;
+                log::debug!("[execute] result from test {:?}", vllm);
                 Ok("exit =>".to_string())
             }
             false => {
                 log::info!("mode: execute");
-                let llama_url = format!("{}", params.base_url);
-                log::debug!("[execute] url :{}:", llama_url);
-                let llama_payload = get_llama_payload(prompt);
-                log::debug!("payload {}", llama_payload);
+                let vllm_url = format!("{}", params.base_url);
+                log::debug!("[execute] url :{}:", vllm_url);
+                let vllm_payload = get_vllm_payload(prompt);
+                log::debug!("payload {}", vllm_payload);
                 let client = reqwest::Client::builder()
                     .danger_accept_invalid_certs(true)
                     .build()?;
@@ -94,9 +94,9 @@ impl AgentInterface for Agent {
                 headers.insert(USER_AGENT, HeaderValue::from_static("reqwest"));
                 headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
                 let res = client
-                    .post(llama_url)
+                    .post(vllm_url)
                     .headers(headers)
-                    .body(llama_payload)
+                    .body(vllm_payload)
                     .send()
                     .await;
                 match res {
@@ -121,7 +121,7 @@ impl AgentInterface for Agent {
     }
 }
 
-fn get_llama_payload(prompt: String) -> String {
+fn get_vllm_payload(prompt: String) -> String {
     let formatted = prompt
         .split_whitespace()
         .map(|v| v.to_string())
