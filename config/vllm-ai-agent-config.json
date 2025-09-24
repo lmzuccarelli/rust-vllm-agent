@@ -1,0 +1,10 @@
+{
+	"name": "vllm-ai-agent",
+	"description": "A local llama.cpp agent interface written in Rust",
+	"log_level": "debug",
+	"certs_dir": "/home/lzuccarelli/certs",
+	"cert_mode": "file",
+	"base_url": "https://vinnie/vllm/",
+	"db_path" :"/home/lzuccarelli/database",
+	"test": false
+}
